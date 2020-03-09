@@ -1,3 +1,6 @@
+#ifndef NETWORK
+#define NETWORK
+
 #include <iostream>
 #include <vector>
 #include <math.h>
@@ -22,7 +25,7 @@ class Network {
     //public input layer size, public hidden layers number, public hidden layer size, public output layer size
     int pils, phln, phls, pols;
 
-
+    //all the class functions. To check their definitions go to network.cpp file
     double random();
     double sigmoid(double in);
     void set_input_nodes(double nodes[]);
@@ -33,3 +36,5 @@ class Network {
     void forward_propagate();
     void output_all_nodes();
 };
+
+#endif

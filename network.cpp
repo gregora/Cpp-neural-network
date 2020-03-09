@@ -1,7 +1,5 @@
-#include <iostream>
-#include <vector>
-#include <math.h>
 #include "network.h"
+
 //seed for Network.random()
 double randseed = 0;
 
@@ -18,7 +16,7 @@ Network::Network(int ils, int hln, int hls, int ols){
 
 }
 
-//truly random number between 0 and 1
+//"truly" random number between 0 and 1
 double Network::random(){
   srand((unsigned) time(0) + randseed);
   randseed = (double) (rand() % 10000) * (double) (rand() % 10000);
@@ -99,7 +97,7 @@ void Network::reset_edges(){
 
 }
 
-//randomly change edges
+//randomly change edges (used in genetic algorithms)
 void Network::mutate(int amount){
 
   //this part approximates what are the odds of mutation happening on any layer (input, hidden or output)
@@ -134,7 +132,7 @@ void Network::mutate(int amount){
   }
 }
 
-//get cost after propagation, provided what expected output
+//get cost after propagation, provided the expected output
 double Network::cost(double expected_output[]){
   double c = 0;
 
@@ -146,7 +144,7 @@ double Network::cost(double expected_output[]){
 
 }
 
-//propagate
+//propagate forward
 void Network::forward_propagate(){
 
   //input nodes to hidden (first layer)
@@ -202,7 +200,7 @@ for(int x = 0; x < output_nodes.size(); x++){
 
 }
 
-//output (mainly for debuging)
+//output values for all nodes (mainly for debuging)
 void Network::output_all_nodes(){
 
 std::cout << "Input layer: " << "\n";
