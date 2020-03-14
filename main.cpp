@@ -146,7 +146,7 @@ int main(){
 
   }
 
-  double avgcost2 = allcost2 / 100;
+  double avgcost2 = allcost2 / 3;
 
   std::cout << "Average cost: " << avgcost2 << std::endl;
 
