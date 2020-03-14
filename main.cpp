@@ -1,11 +1,154 @@
 #include "network.h"
 
-int main(){
-  Network network(3, 1, 1, 3);
+int randNum(double r){
+  if(r >= 0.5){
+    return 1;
+  }else{
+    return 0;
+  }
+}
 
-  double array[] = {1, 0, 1};
-  network.set_input_nodes(array);
-  network.forward_propagate();
-  network.output_all_nodes();
-  
+
+int main(){
+
+
+  std::vector<Network> nvec;
+  std::vector<double> ncost;
+
+  //set up the first network
+  for(int x = 0; x < 100; x++){
+    Network n(3, 1, 3, 3);
+    nvec.push_back(n);
+
+    double allcost = 0;
+
+    for(int y = 0; y < 100; y++){
+
+      double array[] = {1, 1, 1};
+      array[0] = 1;
+      array[1] = randNum(n.random());
+      array[2] = randNum(n.random());
+
+      n.set_input_nodes(array);
+      n.forward_propagate();
+      allcost += n.cost(array);
+
+    }
+
+    double avgcost = allcost / 100;
+
+    ncost.push_back(avgcost);
+
+  }
+
+  int itnum = 0;
+
+  double avgcost = 1;
+
+  while(avgcost > 0.25 && itnum < 10000000){
+
+    itnum += 1;
+
+    double ancost = 0;
+
+    for(int x = 0; x < nvec.size(); x++){
+      ancost += ncost[x];
+      //std::cout << ncost[x] << std::endl;
+    }
+
+    avgcost = ancost / nvec.size();
+
+    if(itnum % 1000 == 0){
+
+      std::cout << "All networks average cost: " << avgcost << " at " << itnum << " iteration" << std::endl;
+      std::cout << "nvec size: " << nvec.size() << std::endl;
+    }
+
+    int size = nvec.size();
+
+    //delete all the useless cases
+    for(int x = 0; x < size; x++){
+
+      if(ncost[x] > avgcost){
+        nvec.erase(nvec.begin() + x);
+        ncost.erase(ncost.begin() + x);
+        size = size - 1;
+        x = x - 1;
+      }else if(nvec.size() < 100){ // population cap
+        Network n2(3, 1, 3, 3);
+
+        if(n2.random() > 0.7){
+          n2 = nvec[x];
+          n2.mutate(5);
+        }
+
+        double allcost2 = 0;
+
+        for(int y = 0; y < 100; y++){
+
+          double array[] = {1, 1, 1};
+          array[0] = 1;
+          array[1] = randNum(n2.random());
+          array[2] = randNum(n2.random());
+
+          n2.set_input_nodes(array);
+          n2.forward_propagate();
+
+          allcost2 += n2.cost(array);
+        }
+
+        double avgcost2 = allcost2 / 100;
+
+        ncost.push_back(avgcost2);
+        nvec.push_back(n2);
+
+      }
+
+    }
+
+  }
+
+
+  std::cout << "========= TEST ==========" << std::endl;
+
+  double minvalue = 10;
+  int minpos = -1;
+
+  for(int x = 0; x < ncost.size(); x++){
+    if(ncost[x] < minvalue){
+      //std::cout << ncost[x] << std::endl;
+      minpos = x;
+      minvalue = ncost[x];
+    }
+  }
+
+  Network n2(3, 1, 3, 3);
+
+  n2 = nvec[minpos];
+
+  double allcost2 = 0;
+
+  for(int y = 0; y < 3; y++){
+
+    std::cout << "----------- Test case ----------" << std::endl;
+
+    double array[] = {1, 1, 1};
+    array[0] = 1;
+    array[1] = randNum(n2.random());
+    array[2] = randNum(n2.random());
+
+    n2.set_input_nodes(array);
+    n2.forward_propagate();
+    n2.output_all_nodes();
+    std::cout << "Cost: " << n2.cost(array) << std::endl;
+
+    allcost2 += n2.cost(array);
+
+  }
+
+  double avgcost2 = allcost2 / 100;
+
+  std::cout << "Average cost: " << avgcost2 << std::endl;
+
+
 }

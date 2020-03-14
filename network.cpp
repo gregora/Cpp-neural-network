@@ -30,6 +30,7 @@ double Network::sigmoid(double in){
 
 //set input nodes
 void Network::set_input_nodes(double nodes[]){
+  reset_nodes();
   for(int x = 0; x < pils; x++){
     input_nodes[x] = nodes[x];
   }
@@ -90,14 +91,14 @@ void Network::reset_edges(){
   for(int x = 0; x < phls; x++){
     output_edges.push_back({});
     for(int y = 0; y < pols; y++){
-      output_edges[x].push_back(random());
+      output_edges[x].push_back(2*random());
     }
   }
 
 
 }
 
-//randomly change edges (used in genetic algorithms)
+//randomly change an edge (used in genetic algorithms)
 void Network::mutate(int amount){
 
   //this part approximates what are the odds of mutation happening on any layer (input, hidden or output)
@@ -113,23 +114,22 @@ void Network::mutate(int amount){
 
   double rn = random();
 
-  for(int x = 0; x < amount; x++){
-    //odds of mutation on any edge should be equal
-    if(rn < input_edges_num / all_edges_num){
+  //odds of mutation on any edge should be equal
+  if(rn < input_edges_num / all_edges_num){
 
-      //choose random edge
-      input_edges[(input_edges.size() - 1) * random()][(input_edges[0].size() - 1) * random()] = random();
+    //choose random edge
+    input_edges[(input_edges.size() - 1) * random()][(input_edges[0].size() - 1) * random()] = amount*random();
 
-    }else if(rn < (input_edges_num + hidden_edges_num) / all_edges_num){
-      //choose random edge
-      hidden_edges[(hidden_edges.size() - 1) * random()][(hidden_edges[0].size() - 1) * random()][(hidden_edges[0][0].size() - 1) * random()] = random();
+  }else if(rn < (input_edges_num + hidden_edges_num) / all_edges_num){
+    //choose random edge
+    hidden_edges[(hidden_edges.size() - 1) * random()][(hidden_edges[0].size() - 1) * random()][(hidden_edges[0][0].size() - 1) * random()] = amount*random();
 
-    }else{
+  }else{
 
-      //choose random edge
-      output_edges[(output_edges.size() - 1) * random()][(output_edges[0].size() - 1) * random()] = random();
-    }
+    //choose random edge
+    output_edges[(output_edges.size() - 1) * random()][(output_edges[0].size() - 1) * random()] = amount*random();
   }
+
 }
 
 //get cost after propagation, provided the expected output

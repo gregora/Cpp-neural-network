@@ -4,6 +4,7 @@
 #include <iostream>
 #include <vector>
 #include <math.h>
+#include <cstdlib>
 
 class Network {
 
@@ -14,13 +15,13 @@ class Network {
 
     //all nodes
     std::vector<double> input_nodes;
-    std::vector<std::vector<double>> hidden_nodes;
+    std::vector< std::vector<double> > hidden_nodes;
     std::vector<double> output_nodes;
 
     //all edges (connections between nodes)
-    std::vector<std::vector<double>> input_edges;
-    std::vector<std::vector<std::vector<double>>> hidden_edges;
-    std::vector<std::vector<double>> output_edges;
+    std::vector< std::vector<double> > input_edges;
+    std::vector< std::vector <std::vector<double> > > hidden_edges;
+    std::vector< std::vector<double> > output_edges;
 
     //public input layer size, public hidden layers number, public hidden layer size, public output layer size
     int pils, phln, phls, pols;
