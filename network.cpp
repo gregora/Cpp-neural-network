@@ -1,8 +1,5 @@
 #include "network.h"
 
-//seed for Network.random()
-double randseed = 0;
-
 //constructor
 Network::Network(int ils, int hln, int hls, int ols){
 
