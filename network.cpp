@@ -91,7 +91,7 @@ void Network::reset_edges(){
   for(int x = 0; x < phls; x++){
     output_edges.push_back({});
     for(int y = 0; y < pols; y++){
-      output_edges[x].push_back(2*random());
+      output_edges[x].push_back(random());
     }
   }
 
@@ -227,5 +227,163 @@ for(int x = 0; x < output_nodes.size(); x++){
 }
 
 std::cout << "\n";
+
+}
+
+//save network to file (only saves edges)
+void Network::save(std::string file_path){
+  std::ofstream file;
+  file.open(file_path);
+
+  //save input edges
+  for(int x = 0; x < pils; x++){
+    file << "[ ";
+    for(int y = 0; y < phls; y++){
+      file << input_edges[x][y];
+      file << " ";
+    }
+    file << "] ";
+
+  }
+
+  file << "\nnewline\n";
+  //save hidden edges
+  for(int x = 0; x < phln - 1; x++){
+    for(int y = 0; y < phls; y++){
+      file << "[ ";
+      for(int z = 0; z < phls; z++){
+        file << hidden_edges[x][y][z];
+        file << " ";
+      }
+      file << "] ";
+    }
+
+    if(x != phln - 2){
+      file << "\nnewlayer\n";
+    }
+  }
+
+  file << "\nnewline\n";
+
+  //save output edges
+  for(int x = 0; x < phls; x++){
+    file << "[ ";
+    for(int y = 0; y < pols; y++){
+      file << output_edges[x][y];
+      file << " ";
+    }
+    file << "] ";
+  }
+
+  file << "\nend";
+
+  file.close();
+}
+
+//load network from file (only loads edges)
+void Network::load(std::string file_path){
+
+  std::ifstream file;
+  file.open(file_path);
+  std::string word;
+
+  std::vector<std::string> file_vector;
+
+  if (file.is_open()) {
+    while (!file.eof()) {
+       file >> word;
+       file_vector.push_back(word);
+    }
+  }
+
+
+
+  input_edges.clear();
+  hidden_edges.clear();
+  output_edges.clear();
+
+  int x = -1;
+  int y = -1;
+  //set input edges
+  while(true){
+    word = file_vector[0];
+    if(word != "newline"){
+      if(word == "["){
+        y = y + 1;
+        x = 0;
+        input_edges.push_back({});
+      }else if(word != "]"){
+        x = x + 1;
+        input_edges[y].push_back(std::stod(word));
+      }
+      file_vector.erase(file_vector.begin());
+    }else{
+      file_vector.erase(file_vector.begin());
+      break;
+    }
+  }
+
+
+  x = -1;
+  y = -1;
+  int z = 0;
+  hidden_edges.push_back({});
+  //set hidden nodes
+  while(true){
+
+    word = file_vector[0];
+
+    if(word != "newline"){
+
+      if(word == "newlayer"){
+        y = -1;
+        x = 0;
+        z = z + 1;
+        hidden_edges.push_back({});
+      }else{
+        if(word == "["){
+          y = y + 1;
+          x = 0;
+          hidden_edges[z].push_back({});
+
+        }else if(word != "]"){
+
+          x = x + 1;
+          hidden_edges[z][y].push_back(std::stod(word));
+
+        }
+      }
+
+      file_vector.erase(file_vector.begin());
+    }else{
+      file_vector.erase(file_vector.begin());
+      break;
+    }
+  }
+
+
+
+
+  x = -1;
+  y = -1;
+  //set output edges
+  while(true){
+    word = file_vector[0];
+    if(word != "end"){
+      if(word == "["){
+        y = y + 1;
+        x = 0;
+        output_edges.push_back({});
+      }else if(word != "]"){
+        x = x + 1;
+        output_edges[y].push_back(std::stod(word));
+      }
+      file_vector.erase(file_vector.begin());
+    }else{
+      file_vector.erase(file_vector.begin());
+      break;
+    }
+  }
+
 
 }

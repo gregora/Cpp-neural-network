@@ -5,6 +5,7 @@
 #include <vector>
 #include <math.h>
 #include <cstdlib>
+#include <fstream>
 
 class Network {
 
@@ -36,6 +37,8 @@ class Network {
     double cost(double expected_output[]);
     void forward_propagate();
     void output_all_nodes();
+    void save(std::string file_path);
+    void load(std::string file_path);
 };
 
 #endif
