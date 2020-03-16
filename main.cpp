@@ -18,13 +18,13 @@ int main(){
   double array[3];
 
   //set up the first network
-  for(int x = 0; x < 50; x++){
+  for(int x = 0; x < 100; x++){
     Network n(3, 1, 3, 3);
     nvec.push_back(n);
 
     double allcost = 0;
 
-    for(int y = 0; y < 20; y++){
+    for(int y = 0; y < 100; y++){
 
       array[0] = randNum(n.random());
       array[1] = randNum(n.random());
@@ -36,7 +36,7 @@ int main(){
 
     }
 
-    double avgcost = allcost / 20;
+    double avgcost = allcost / 100;
 
     ncost.push_back(avgcost);
 
@@ -49,7 +49,7 @@ int main(){
   int minposition = -1;
   double minvalue = 10;
 
-  while(minvalue > 0.1 && itnum < 1000000){
+  while(minvalue > 0.15 && itnum < 1000000){
 
     minposition = -1;
     minvalue = 10;
@@ -64,7 +64,6 @@ int main(){
         minvalue = ncost[x];
         minposition = x;
       }
-      //std::cout << ncost[x] << std::endl;
     }
 
     avgcost = ancost / nvec.size();
@@ -94,23 +93,19 @@ int main(){
         ncost.erase(ncost.begin() + x);
         size = size - 1;
         x = x - 1;
-      }else if(nvec.size() < 50){ // population cap
+      }else if(nvec.size() < 100){ // population cap
         Network n2(3, 1, 3, 3);
 
-        if(n2.random() > 0.7){
-          n2 = nvec[x];
-          n2.mutate(20);
-        }
+        n2 = nvec[x];
+        n2.mutate(20);
 
         double allcost2 = 0;
 
-        for(int y = 0; y < 20; y++){
+        for(int y = 0; y < 100; y++){
 
           array[0] = randNum(n2.random());
           array[1] = randNum(n2.random());
           array[2] = randNum(n2.random());
-
-          //std::cout << array[0] << array[1] << array[2] << std::endl;
 
           n2.set_input_nodes(array);
           n2.forward_propagate();
@@ -118,7 +113,7 @@ int main(){
           allcost2 += n2.cost(array);
         }
 
-        double avgcost2 = allcost2 / 20;
+        double avgcost2 = allcost2 / 100;
 
         ncost.push_back(avgcost2);
         nvec.push_back(n2);
@@ -129,11 +124,9 @@ int main(){
 
   }
 
-  std::cout << "\033[35Ending cost:  " << minvalue << "\033[0m" << std::endl;
+  std::cout << "\033[35mEnding cost:  " << minvalue << "\033[0m" << std::endl;
 
   std::cout << "========= TEST ==========" << std::endl;
-
-
 
 
   Network n2(3, 1, 3, 3);
@@ -144,7 +137,7 @@ int main(){
   double testarray[3];
 
 
-  for(int y = 0; y < 10; y++){
+  for(int y = 0; y < 100; y++){
 
     std::cout << "----------- Test case ----------" << std::endl;
 
@@ -161,17 +154,11 @@ int main(){
 
   }
 
-  double avgcost2 = allcost2 / 10;
+  double avgcost2 = allcost2 / 100;
 
   std::cout << "Average cost: " << avgcost2 << std::endl;
 
   n2.save("savefiles/network_saved.AI");
 
-  std::cout <<  randNum(n2.random()) << std::endl;
-  std::cout <<  randNum(n2.random()) << std::endl;
-  std::cout <<  randNum(n2.random()) << std::endl;
-  std::cout <<  randNum(n2.random()) << std::endl;
-  std::cout <<  randNum(n2.random()) << std::endl;
-  std::cout <<  randNum(n2.random()) << std::endl;
 
 }

@@ -120,16 +120,16 @@ void Network::mutate(int amount){
   if(rn < input_edges_num / all_edges_num){
 
     //choose random edge
-    input_edges[(input_edges.size() - 1) * random()][(input_edges[0].size() - 1) * random()] = amount*random();
+    input_edges[(int) (((double)input_edges.size() - 0.00001) * random())][(int) (((double)input_edges[0].size() - 0.00001) * random())] = amount*random();
 
   }else if(rn < (input_edges_num + hidden_edges_num) / all_edges_num){
     //choose random edge
-    hidden_edges[(hidden_edges.size() - 1) * random()][(hidden_edges[0].size() - 1) * random()][(hidden_edges[0][0].size() - 1) * random()] = amount*random();
+    hidden_edges[(int)((double)(hidden_edges.size() - 0.00001)) * random()][(int)((double)hidden_edges[0].size() - 0.00001) * random()][(int)((double)hidden_edges[0][0].size() - 0.00001) * random()] = amount*random();
 
   }else{
 
     //choose random edge
-    output_edges[(output_edges.size() - 1) * random()][(output_edges[0].size() - 1) * random()] = amount*random();
+    output_edges[(int) (((double)output_edges.size() - 0.00001) * random())][(int) (((double)output_edges[0].size() - 0.00001) * random())] = amount*random();
   }
 
 }
