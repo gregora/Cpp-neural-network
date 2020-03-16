@@ -18,9 +18,11 @@ Network::Network(int ils, int hln, int hls, int ols){
 
 //"truly" random number between 0 and 1
 double Network::random(){
-  srand((unsigned) time(0) + randseed);
-  randseed = (double) (rand() % 10000) * (double) (rand() % 10000);
-  return (double) (rand() % 1000) / 1000;
+  std::random_device rd{};
+  std::mt19937 engine{rd()};
+  std::uniform_real_distribution<double> dist{0.0, 1.0};
+  double ret = dist(engine);
+  return ret;
 }
 
 //sigmoid function approximation

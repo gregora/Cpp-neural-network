@@ -6,6 +6,7 @@
 #include <math.h>
 #include <cstdlib>
 #include <fstream>
+#include <random>
 
 class Network {
 
