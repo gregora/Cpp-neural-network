@@ -59,7 +59,7 @@ void Network::reset_nodes(){
 
 }
 
-///sets all edges to random
+///sets all edges to 0
 void Network::reset_edges(){
 
   input_edges.clear();
@@ -70,7 +70,7 @@ void Network::reset_edges(){
   for(int x = 0; x < pils; x++){
     input_edges.push_back({});
     for(int y = 0; y < phls; y++){
-      input_edges[x].push_back(random());
+      input_edges[x].push_back(0);
     }
 
   }
@@ -81,7 +81,7 @@ void Network::reset_edges(){
     for(int y = 0; y < phls; y++){
       hidden_edges[x].push_back({});
       for(int z = 0; z < phls; z++){
-        hidden_edges[x][y].push_back(random());
+        hidden_edges[x][y].push_back(0);
       }
     }
   }
@@ -90,7 +90,7 @@ void Network::reset_edges(){
   for(int x = 0; x < phls; x++){
     output_edges.push_back({});
     for(int y = 0; y < pols; y++){
-      output_edges[x].push_back(random());
+      output_edges[x].push_back(0);
     }
   }
 

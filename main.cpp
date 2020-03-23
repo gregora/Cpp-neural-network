@@ -49,7 +49,7 @@ int main(){
   int minposition = -1;
   double minvalue = 10;
 
-  while(minvalue > 0.1 && itnum < 1000000){
+  while(minvalue > 0.004 && itnum < 1000000){
 
     minposition = -1;
     minvalue = 10;
