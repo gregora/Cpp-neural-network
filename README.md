@@ -16,3 +16,6 @@ Create your own programm and include "network.h" header file with "network.cpp" 
 * `network.output_all_nodes()` outputs all node values (mainly used for debugging)
 * `network.save(std::string file_path)` saves the network to a file
 * `network.load(std::string file_path)` loads a network from a file (note: this only changes edges and not nodes)
+
+## visualize.py
+This script was created, to more easily visualize a saved network. It is written in Python 2, and all it does, is read from a saved network, and renders it in a window.

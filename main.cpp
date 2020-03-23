@@ -49,7 +49,7 @@ int main(){
   int minposition = -1;
   double minvalue = 10;
 
-  while(minvalue > 0.15 && itnum < 1000000){
+  while(minvalue > 0.1 && itnum < 1000000){
 
     minposition = -1;
     minvalue = 10;
@@ -136,8 +136,8 @@ int main(){
   double allcost2 = 0;
   double testarray[3];
 
-
-  for(int y = 0; y < 100; y++){
+  // 20 test cases
+  for(int y = 0; y < 20; y++){
 
     std::cout << "----------- Test case ----------" << std::endl;
 
@@ -154,7 +154,7 @@ int main(){
 
   }
 
-  double avgcost2 = allcost2 / 100;
+  double avgcost2 = allcost2 / 20;
 
   std::cout << "Average cost: " << avgcost2 << std::endl;
 
