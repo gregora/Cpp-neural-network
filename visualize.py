@@ -121,7 +121,7 @@ def main():
 
     maxnodes = max(inpnodes, hidnodes, outnodes)
 
-    section_height = canvas_height / maxnodes
+    section_height = (canvas_height - 80) / maxnodes
 
 
 

@@ -11,7 +11,7 @@ Create your own programm and include "network.h" header file with "network.cpp" 
 * `network.reset_nodes()` sets all the nodes to 0
 * `network.reset_edges()` sets all the edges to 0
 * `network.mutate(int amount)` changes a random edge to a random number from 0 to [chosen] amount
-* `network.cost(double expected_output[])` accepts and array of what output nodes should be like and compares it to the actual values and returns the cost
+* `network.loss(double expected_output[])` accepts and array of what output nodes should be like and compares it to the actual values and returns loss
 * `network.forward_propagate()` propagates forward and changes all the values of nodes
 * `network.output_all_nodes()` outputs all node values (mainly used for debugging)
 * `network.save(std::string file_path)` saves the network to a file

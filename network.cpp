@@ -131,8 +131,8 @@ void Network::mutate(int amount){
 
 }
 
-//get cost after propagation, provided the expected output
-double Network::cost(double expected_output[]){
+//get loss after propagation, provided the expected output
+double Network::loss(double expected_output[]){
   double c = 0;
 
   for(int x = 0; x < output_nodes.size(); x++){

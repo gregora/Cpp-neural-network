@@ -35,7 +35,7 @@ class Network {
     void reset_nodes();
     void reset_edges();
     void mutate(int amount);
-    double cost(double expected_output[]);
+    double loss(double expected_output[]);
     void forward_propagate();
     void output_all_nodes();
     void save(std::string file_path);

@@ -13,7 +13,7 @@ int main(){
 
 
   std::vector<Network> nvec;
-  std::vector<double> ncost;
+  std::vector<double> nloss;
 
   double array[3];
 
@@ -22,7 +22,7 @@ int main(){
     Network n(3, 1, 3, 3);
     nvec.push_back(n);
 
-    double allcost = 0;
+    double allloss = 0;
 
     for(int y = 0; y < 100; y++){
 
@@ -32,47 +32,47 @@ int main(){
 
       n.set_input_nodes(array);
       n.forward_propagate();
-      allcost += n.cost(array);
+      allloss += n.loss(array);
 
     }
 
-    double avgcost = allcost / 100;
+    double avgloss = allloss / 100;
 
-    ncost.push_back(avgcost);
+    nloss.push_back(avgloss);
 
   }
 
   int itnum = 0;
 
-  double avgcost = 1;
+  double avgloss = 1;
 
   int minposition = -1;
   double minvalue = 10;
 
-  while(minvalue > 0.004 && itnum < 1000000){
+  while(minvalue > 0.005 && itnum < 1000000){
 
     minposition = -1;
     minvalue = 10;
 
     itnum += 1;
 
-    double ancost = 0;
+    double anloss = 0;
 
     for(int x = 0; x < nvec.size(); x++){
-      ancost += ncost[x];
-      if(ncost[x] < minvalue){
-        minvalue = ncost[x];
+      anloss += nloss[x];
+      if(nloss[x] < minvalue){
+        minvalue = nloss[x];
         minposition = x;
       }
     }
 
-    avgcost = ancost / nvec.size();
+    avgloss = anloss / nvec.size();
 
     if(itnum % 100 == 0){
 
-      std::cout << "All networks average cost: " << avgcost << " at " << itnum << " iteration" << std::endl;
+      std::cout << "All networks average loss: " << avgloss << " at " << itnum << " iteration" << std::endl;
       std::cout << "nvec size: " << nvec.size() << std::endl;
-      std::cout <<  "\033[32mMin cost: " << minvalue << "\033[0m" << std::endl;
+      std::cout <<  "\033[32mMin loss: " << minvalue << "\033[0m" << std::endl;
 
       if(itnum % 10000 == 0){
         std::string savefile = "th_network_saved.AI";
@@ -88,18 +88,21 @@ int main(){
     //delete all the useless cases
     for(int x = 0; x < size; x++){
 
-      if(ncost[x] > avgcost && nvec.size() > 10){
+      if(nloss[x] > avgloss && nvec.size() > 10){
         nvec.erase(nvec.begin() + x);
-        ncost.erase(ncost.begin() + x);
+        nloss.erase(nloss.begin() + x);
         size = size - 1;
         x = x - 1;
       }else if(nvec.size() < 100){ // population cap
         Network n2(3, 1, 3, 3);
 
-        n2 = nvec[x];
+        if(n2.random() >= 0.1){ //a fraction of new population should start clean
+          n2 = nvec[x];
+        }
+
         n2.mutate(20);
 
-        double allcost2 = 0;
+        double allloss2 = 0;
 
         for(int y = 0; y < 100; y++){
 
@@ -110,12 +113,12 @@ int main(){
           n2.set_input_nodes(array);
           n2.forward_propagate();
 
-          allcost2 += n2.cost(array);
+          allloss2 += n2.loss(array);
         }
 
-        double avgcost2 = allcost2 / 100;
+        double avgloss2 = allloss2 / 100;
 
-        ncost.push_back(avgcost2);
+        nloss.push_back(avgloss2);
         nvec.push_back(n2);
 
       }
@@ -124,7 +127,7 @@ int main(){
 
   }
 
-  std::cout << "\033[35mEnding cost:  " << minvalue << "\033[0m" << std::endl;
+  std::cout << "\033[35mEnding loss:  " << minvalue << "\033[0m" << std::endl;
 
   std::cout << "========= TEST ==========" << std::endl;
 
@@ -133,7 +136,7 @@ int main(){
 
   n2 = nvec[minposition];
 
-  double allcost2 = 0;
+  double allloss2 = 0;
   double testarray[3];
 
   // 20 test cases
@@ -148,15 +151,15 @@ int main(){
     n2.set_input_nodes(testarray);
     n2.forward_propagate();
     n2.output_all_nodes();
-    std::cout << "Cost: " << n2.cost(testarray) << std::endl;
+    std::cout << "loss: " << n2.loss(testarray) << std::endl;
 
-    allcost2 += n2.cost(testarray);
+    allloss2 += n2.loss(testarray);
 
   }
 
-  double avgcost2 = allcost2 / 20;
+  double avgloss2 = allloss2 / 20;
 
-  std::cout << "Average cost: " << avgcost2 << std::endl;
+  std::cout << "Average loss: " << avgloss2 << std::endl;
 
   n2.save("savefiles/network_saved.AI");
 
