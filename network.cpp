@@ -100,6 +100,8 @@ void Network::reset_edges(){
 //randomly change an edge (used in genetic algorithms)
 void Network::mutate(int amount){
 
+  double mutate_to = amount*random(); //what value to mutate to
+
   //this part approximates what are the odds of mutation happening on any layer (input, hidden or output)
   double hidden_edges_num = 0;
   if(hidden_edges.size() > 0){
@@ -117,16 +119,23 @@ void Network::mutate(int amount){
   if(rn < input_edges_num / all_edges_num){
 
     //choose random edge
-    input_edges[(int) (((double)input_edges.size() - 0.00001) * random())][(int) (((double)input_edges[0].size() - 0.00001) * random())] = amount*random();
+    int chosen_edge_1 = (int) (((double)input_edges.size()) * random());
+    int chosen_edge_2 = (int) (((double)input_edges[0].size()) * random());
+    input_edges[chosen_edge_1][chosen_edge_2] = mutate_to;
 
   }else if(rn < (input_edges_num + hidden_edges_num) / all_edges_num){
     //choose random edge
-    hidden_edges[(int)((double)(hidden_edges.size() - 0.00001)) * random()][(int)((double)hidden_edges[0].size() - 0.00001) * random()][(int)((double)hidden_edges[0][0].size() - 0.00001) * random()] = amount*random();
+    int chosen_edge_1 = (int)((double)(hidden_edges.size())) * random();
+    int chosen_edge_2 = (int)((double)hidden_edges[0].size()) * random();
+    int chosen_edge_3 = (int)((double)hidden_edges[0][0].size()) * random();
+    hidden_edges[chosen_edge_1][chosen_edge_2][chosen_edge_3] = mutate_to;
 
   }else{
 
     //choose random edge
-    output_edges[(int) (((double)output_edges.size() - 0.00001) * random())][(int) (((double)output_edges[0].size() - 0.00001) * random())] = amount*random();
+    int chosen_edge_1 = (int) (((double)output_edges.size()) * random());
+    int chosen_edge_2 = (int) (((double)output_edges[0].size()) * random());
+    output_edges[chosen_edge_1][chosen_edge_2] = mutate_to;
   }
 
 }
