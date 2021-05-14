@@ -34,6 +34,7 @@ class Network {
     void set_input_nodes(double nodes[]);
     void reset_nodes();
     void reset_edges();
+    void randomize_edges(float val1 = 1, float val2 = 1, float val3 = 1);
     void mutate(int amount);
     double loss(double expected_output[]);
     void forward_propagate();
